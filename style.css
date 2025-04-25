@@ -1,81 +1,136 @@
 
+/* === GLOBAL ============================================= */
 body{
-    font-family: system-ui, sans-serif;
-    margin:0;
-    padding:0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  margin:0;
+  padding:0;
+  background:#f7f7f7;
 }
-h1{
-    text-align:center;
-    margin:1rem 0;
+h1,h2{
+  text-align:center;
+  margin:1.2rem 0 0.6rem;
+  font-weight:600;
 }
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-    gap:1rem;
-    padding:1rem;
+a{color:inherit}
+
+.container{
+  max-width:1300px;
+  margin:0 auto;
+  padding:0 1rem;
 }
-.category-btn{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    background:#f7f7f7;
-    border:2px solid #ddd;
-    border-radius:8px;
-    padding:1.5rem 1rem;
-    text-decoration:none;
-    color:#333;
-    font-size:1.1rem;
-    transition:transform .1s, box-shadow .1s;
+
+/* === MAIN PAGE ========================================== */
+.category-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+  gap:1rem;
+  margin:2rem auto;
+  max-width:1300px;
+  padding:0 1rem;
 }
-.category-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 2px 6px rgba(0,0,0,.15);
+.category-card{
+  background:#fafafa;
+  border-radius:8px;
+  box-shadow:0 2px 4px rgba(0,0,0,.08);
+  text-align:center;
+  padding:1.4rem 1rem;
+  font-size:1.25rem;
+  line-height:1.3;
+  text-decoration:none;
+  color:#222;
+  transition:transform .15s, box-shadow .15s;
 }
-.category-count{
-    margin-top:.5rem;
-    font-weight:600;
-    color:#555;
+.category-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 6px 12px rgba(0,0,0,.12);
 }
-.back{
-    position:fixed;
-    top:10px;
-    left:10px;
-    background:#eee;
-    border:1px solid #ccc;
-    border-radius:4px;
-    padding:6px 10px;
-    text-decoration:none;
-    color:#333;
-    font-weight:600;
+.category-card .count{
+  display:block;
+  margin-top:.35rem;
+  font-size:.85rem;
+  color:#777;
+}
+
+/* === CATEGORY PAGES ===================================== */
+.back-btn{
+  position:fixed;
+  top:16px;
+  left:16px;
+  z-index:1000;
+  text-decoration:none;
+  font-size:0.95rem;
+  background:#ffffffd9;
+  padding:.45rem .8rem;
+  border:1px solid #ccc;
+  border-radius:4px;
+  color:#222;
+  backdrop-filter:blur(3px);
+  box-shadow:0 2px 4px rgba(0,0,0,.15);
 }
 .video-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
-    gap:1rem;
-    padding:3rem 1rem 2rem;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:1rem;
+  max-width:1300px;
+  margin:90px auto 2rem;
+  padding:0 1rem;
 }
 .video-card{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
+  background:#fff;
+  border-radius:6px;
+  box-shadow:0 1px 3px rgba(0,0,0,.12);
+  overflow:hidden;
 }
-.video-card iframe{
-    width:100%;
-    aspect-ratio:16/9;
-    border:0;
+.video-embed{
+  position:relative;
+  padding-bottom:56.25%;
+  height:0;
+}
+.video-embed iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
 }
 .vote-box{
-    display:flex;
-    align-items:center;
-    gap:4px;
-    margin-top:4px;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  padding:.4rem .6rem;
+  font-size:.85rem;
 }
 .vote-box button{
-    background:none;
-    border:none;
-    font-size:1.2rem;
-    cursor:pointer;
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  font-size:1rem;
+  line-height:1;
+  padding:0 2px;
+  transition:color .15s;
 }
-.vote-box button.up.voted{color:green;}
-.vote-box button.down.voted{color:red;}
+.vote-box button.up.active{color:#0a8f37;}
+.vote-box button.down.active{color:#c31717;}
+
+/* === PAGER ============================================== */
+.pager{
+  text-align:center;
+  margin:1.5rem 0 2rem;
+}
+.pager a, .pager span{
+  display:inline-block;
+  margin:0 .25rem;
+  padding:.4rem .6rem;
+  border-radius:4px;
+  text-decoration:none;
+  border:1px solid #ccc;
+  font-size:.9rem;
+}
+.pager a:hover{
+  background:#f0f0f0;
+}
+.pager .current{
+  background:#ddd;
+  font-weight:600;
+  cursor:default;
+}

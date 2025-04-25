@@ -1,33 +1,34 @@
 
-// simple localStorage voting
-document.addEventListener('DOMContentLoaded',()=>{
-  document.querySelectorAll('.vote-box').forEach(box=>{
-    const up=box.querySelector('.up')
-    const down=box.querySelector('.down')
-    const scoreEl=box.querySelector('.score')
-    const videoId=box.dataset.vid
-    let score=parseInt(localStorage.getItem('score_'+videoId))||0
-    let userVote=localStorage.getItem('vote_'+videoId)||''
-    scoreEl.textContent=score
-    if(userVote==='up'){up.classList.add('voted')}
-    if(userVote==='down'){down.classList.add('voted')}
-    up.addEventListener('click',()=>vote(1))
-    down.addEventListener('click',()=>vote(-1))
-    function vote(dir){
-      let prev = userVote==='up'?1 : userVote==='down'?-1 : 0
-      if(dir===prev){
-        // undo
-        score -= dir
-        userVote=''
-      }else{
-        score += dir - prev
-        userVote = dir===1?'up':'down'
-      }
-      scoreEl.textContent=score
-      localStorage.setItem('score_'+videoId, score)
-      localStorage.setItem('vote_'+videoId, userVote)
-      up.classList.toggle('voted', userVote==='up')
-      down.classList.toggle('voted', userVote==='down')
+document.addEventListener('DOMContentLoaded', () => {
+  const boxes = document.querySelectorAll('.vote-box');
+  boxes.forEach(box => {
+    const id = box.dataset.id;
+    const upBtn = box.querySelector('.up');
+    const downBtn = box.querySelector('.down');
+    const scoreSpan = box.querySelector('.score');
+
+    function getVote(){
+      return parseInt(localStorage.getItem('vote_'+id) || '0', 10);
     }
-  })
-})
+    function setVote(val){
+      localStorage.setItem('vote_'+id, String(val));
+    }
+    function updateUI(){
+      const v = getVote();
+      upBtn.classList.toggle('active', v===1);
+      downBtn.classList.toggle('active', v===-1);
+      scoreSpan.textContent = v;
+    }
+    upBtn.addEventListener('click', () => {
+      const v = getVote();
+      setVote(v===1?0:1);
+      updateUI();
+    });
+    downBtn.addEventListener('click', () => {
+      const v = getVote();
+      setVote(v===-1?0:-1);
+      updateUI();
+    });
+    updateUI();
+  });
+});
