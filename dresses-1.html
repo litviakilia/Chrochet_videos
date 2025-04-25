@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Платья – страница 1</title>
-<link rel="stylesheet" href="style.css"></head><body>
-<a href="index.html" class="back">← Назад</a>
-<h1>Платья</h1>
-<div class="grid">
-<iframe loading="lazy" src="https://www.youtube.com/embed/YSOxw2H_IO8" allowfullscreen></iframe>
+<link rel="stylesheet" href="style.css?v=20250425">
+<script type="module" src="vote.js"></script>
+</head><body>
+<a class="back-btn" href="index.html">← Назад</a>
+<h2 style="text-align:center;margin:1.2rem 0 0;">Платья</h2>
+<div class="video-grid">
+<div class="video-card" data-id="YSOxw2H_IO8">
+  <div class="video-embed">
+    <iframe src="https://www.youtube.com/embed/YSOxw2H_IO8?rel=0" loading="lazy" allowfullscreen></iframe>
+  </div>
+  <div class="vote-box">
+    <button class="up">▲</button>
+    <span class="score">0</span>
+    <button class="down">▼</button>
+  </div>
 </div>
-<div class="pagination">
-<span class="current">1</span>
 </div>
 </body></html>

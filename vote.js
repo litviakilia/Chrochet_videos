@@ -1,8 +1,8 @@
 
-// vote.js  — global voting with Firebase Realtime Database
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getDatabase, ref, runTransaction, onValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyD170Bct_iQaHivGB0MDwFGqvO-0BZ-ASQ",
@@ -14,64 +14,66 @@ const firebaseConfig = {
     appId: "1:159415304130:web:ffacbacb3eeade6c4c605b"
 };
 
-const app  = initializeApp(firebaseConfig);
-const db   = getDatabase(app);
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 const auth = getAuth(app);
-signInAnonymously(auth);
+signInAnonymously(auth).catch(console.error);
 
-/**
- * Return database ref for total score for video id
- */
-function scoreRef(id) {
-  return ref(db, `votes/${id}/score`);
-}
-/**
- * Return database ref for user's vote
- */
-function userRef(id, uid) {
-  return ref(db, `votes/${id}/users/${uid}`);
+function nodePath(vid) {
+  return `votes/{${vid}}`;
 }
 
-document.querySelectorAll(".video-card").forEach(card => {
-  const vid      = card.dataset.id;
-  const btnUp    = card.querySelector(".up");
-  const btnDown  = card.querySelector(".down");
-  const lblScore = card.querySelector(".score");
+function scoreRef(vid) {
+  return ref(db, nodePath(vid) + '/score');
+}
 
-  // live score listener
-  onValue(scoreRef(vid), snap => {
-      lblScore.textContent = snap.exists() ? snap.val() : 0;
-  });
+function videoNodeRef(vid) {
+  return ref(db, nodePath(vid));
+}
 
-  // reflect my own vote (after auth ready)
-  auth.onAuthStateChanged(user => {
-    if(!user) return;
-    onValue(userRef(vid, user.uid), snap => {
-       const myVote = snap.exists() ? snap.val() : 0;
-       btnUp.classList.toggle("active", myVote === 1);
-       btnDown.classList.toggle("active", myVote === -1);
-    });
-  });
-
-  function send(delta) {
-    const user = auth.currentUser;
-    if(!user) return;
-
-    runTransaction(scoreRef(vid), current => {
-      if(current === null) current = 0;
-      return current; // we'll update after user vote transaction
-    }).then(() => {
-      runTransaction(userRef(vid, user.uid), myVote => {
-        myVote = myVote ?? 0;
-        const next = (myVote === delta) ? 0 : delta;
-        const diff = next - myVote;
-        // update score
-        runTransaction(scoreRef(vid), s => (s ?? 0) + diff);
-        return next;
-      });
-    });
-  }
-
-  btnUp.addEventListener("click", () => send(1));
-  btnDown.addEventListener("click", () => send(-1));
+auth.onAuthStateChanged(() => {
+  initVoting();
 });
+
+function initVoting() {
+  document.querySelectorAll('.video-card').forEach(card => {
+    const vid = card.dataset.id;
+    if(!vid) return;
+    const btnUp = card.querySelector('.up');
+    const btnDown = card.querySelector('.down');
+    const lblScore = card.querySelector('.score');
+
+    // global score listener
+    onValue(scoreRef(vid), snap => {
+      lblScore.textContent = snap.exists() ? snap.val() : 0;
+    });
+
+    // my vote listener (optional - highlight)
+    const myVoteRef = () => ref(db, nodePath(vid) + '/users/' + auth.currentUser.uid);
+    onValue(myVoteRef(), snap => {
+      const my = snap.exists() ? snap.val() : 0;
+      btnUp.classList.toggle('active', my === 1);
+      btnDown.classList.toggle('active', my === -1);
+    });
+
+    function sendVote(delta) {
+      if(!auth.currentUser) return;
+      runTransaction(videoNodeRef(vid), data => {
+        if(data === null) {
+          data = {score:0, users:{}};
+        }
+        const uid = auth.currentUser.uid;
+        const prev = data.users[uid] ?? 0;
+        const next = (prev === delta) ? 0 : delta;
+        const diff = next - prev;
+        data.users[uid] = next;
+        data.score = (data.score || 0) + diff;
+        return data;
+      });
+    }
+
+    btnUp.addEventListener('click', () => sendVote(1));
+    btnDown.addEventListener('click', () => sendVote(-1));
+  });
+}

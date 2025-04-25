@@ -1,23 +1,116 @@
 <!DOCTYPE html>
 <html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Другое – страница 2</title>
-<link rel="stylesheet" href="style.css"></head><body>
-<a href="index.html" class="back">← Назад</a>
-<h1>Другое</h1>
-<div class="grid">
-<iframe loading="lazy" src="https://www.youtube.com/embed/J2BdUGYOUuw" allowfullscreen></iframe>
-<iframe loading="lazy" src="https://www.youtube.com/embed/HZ3ZTs0dwzE" allowfullscreen></iframe>
-<iframe loading="lazy" src="https://www.youtube.com/embed/ZY1ZI8tbAZY" allowfullscreen></iframe>
-<iframe loading="lazy" src="https://www.youtube.com/embed/5pzZbASgYAA" allowfullscreen></iframe>
-<iframe loading="lazy" src="https://www.youtube.com/embed/zAeH2YA7T5k" allowfullscreen></iframe>
-<iframe loading="lazy" src="https://www.youtube.com/embed/DvUXcldlEHM" allowfullscreen></iframe>
-<iframe loading="lazy" src="https://www.youtube.com/embed/Wk9DA6jVHBo" allowfullscreen></iframe>
-<iframe loading="lazy" src="https://www.youtube.com/embed/JoAkRqhmP8s" allowfullscreen></iframe>
-<iframe loading="lazy" src="https://www.youtube.com/embed/14--glzVULY" allowfullscreen></iframe>
-<iframe loading="lazy" src="https://www.youtube.com/embed/CRTkc4McWig" allowfullscreen></iframe>
+<link rel="stylesheet" href="style.css?v=20250425">
+<script type="module" src="vote.js"></script>
+</head><body>
+<a class="back-btn" href="index.html">← Назад</a>
+<h2 style="text-align:center;margin:1.2rem 0 0;">Другое</h2>
+<div class="video-grid">
+<div class="video-card" data-id="J2BdUGYOUuw">
+  <div class="video-embed">
+    <iframe src="https://www.youtube.com/embed/J2BdUGYOUuw?rel=0" loading="lazy" allowfullscreen></iframe>
+  </div>
+  <div class="vote-box">
+    <button class="up">▲</button>
+    <span class="score">0</span>
+    <button class="down">▼</button>
+  </div>
 </div>
-<div class="pagination">
-<a href="other-1.html">← Пред.</a>
+<div class="video-card" data-id="HZ3ZTs0dwzE">
+  <div class="video-embed">
+    <iframe src="https://www.youtube.com/embed/HZ3ZTs0dwzE?rel=0" loading="lazy" allowfullscreen></iframe>
+  </div>
+  <div class="vote-box">
+    <button class="up">▲</button>
+    <span class="score">0</span>
+    <button class="down">▼</button>
+  </div>
+</div>
+<div class="video-card" data-id="ZY1ZI8tbAZY">
+  <div class="video-embed">
+    <iframe src="https://www.youtube.com/embed/ZY1ZI8tbAZY?rel=0" loading="lazy" allowfullscreen></iframe>
+  </div>
+  <div class="vote-box">
+    <button class="up">▲</button>
+    <span class="score">0</span>
+    <button class="down">▼</button>
+  </div>
+</div>
+<div class="video-card" data-id="5pzZbASgYAA">
+  <div class="video-embed">
+    <iframe src="https://www.youtube.com/embed/5pzZbASgYAA?rel=0" loading="lazy" allowfullscreen></iframe>
+  </div>
+  <div class="vote-box">
+    <button class="up">▲</button>
+    <span class="score">0</span>
+    <button class="down">▼</button>
+  </div>
+</div>
+<div class="video-card" data-id="zAeH2YA7T5k">
+  <div class="video-embed">
+    <iframe src="https://www.youtube.com/embed/zAeH2YA7T5k?rel=0" loading="lazy" allowfullscreen></iframe>
+  </div>
+  <div class="vote-box">
+    <button class="up">▲</button>
+    <span class="score">0</span>
+    <button class="down">▼</button>
+  </div>
+</div>
+<div class="video-card" data-id="DvUXcldlEHM">
+  <div class="video-embed">
+    <iframe src="https://www.youtube.com/embed/DvUXcldlEHM?rel=0" loading="lazy" allowfullscreen></iframe>
+  </div>
+  <div class="vote-box">
+    <button class="up">▲</button>
+    <span class="score">0</span>
+    <button class="down">▼</button>
+  </div>
+</div>
+<div class="video-card" data-id="Wk9DA6jVHBo">
+  <div class="video-embed">
+    <iframe src="https://www.youtube.com/embed/Wk9DA6jVHBo?rel=0" loading="lazy" allowfullscreen></iframe>
+  </div>
+  <div class="vote-box">
+    <button class="up">▲</button>
+    <span class="score">0</span>
+    <button class="down">▼</button>
+  </div>
+</div>
+<div class="video-card" data-id="JoAkRqhmP8s">
+  <div class="video-embed">
+    <iframe src="https://www.youtube.com/embed/JoAkRqhmP8s?rel=0" loading="lazy" allowfullscreen></iframe>
+  </div>
+  <div class="vote-box">
+    <button class="up">▲</button>
+    <span class="score">0</span>
+    <button class="down">▼</button>
+  </div>
+</div>
+<div class="video-card" data-id="14--glzVULY">
+  <div class="video-embed">
+    <iframe src="https://www.youtube.com/embed/14--glzVULY?rel=0" loading="lazy" allowfullscreen></iframe>
+  </div>
+  <div class="vote-box">
+    <button class="up">▲</button>
+    <span class="score">0</span>
+    <button class="down">▼</button>
+  </div>
+</div>
+<div class="video-card" data-id="CRTkc4McWig">
+  <div class="video-embed">
+    <iframe src="https://www.youtube.com/embed/CRTkc4McWig?rel=0" loading="lazy" allowfullscreen></iframe>
+  </div>
+  <div class="vote-box">
+    <button class="up">▲</button>
+    <span class="score">0</span>
+    <button class="down">▼</button>
+  </div>
+</div>
+</div>
+<div class="pager">
+<a href="other-1.html">Пред.</a>
 <a href="other-1.html">1</a>
 <span class="current">2</span>
 <a href="other-3.html">3</a>
@@ -30,7 +123,6 @@
 <a href="other-10.html">10</a>
 <a href="other-11.html">11</a>
 <a href="other-12.html">12</a>
-<a href="other-13.html">13</a>
-<a href="other-3.html">След. →</a>
+<a href="other-3.html">След.</a>
 </div>
 </body></html>
