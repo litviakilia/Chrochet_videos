@@ -3,77 +3,57 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
 import { getDatabase, ref, runTransaction, onValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-
 const firebaseConfig = {
-    apiKey: "AIzaSyD170Bct_iQaHivGB0MDwFGqvO-0BZ-ASQ",
-    authDomain: "crochet-videos-5b09a.firebaseapp.com",
-    databaseURL: "https://crochet-videos-5b09a-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "crochet-videos-5b09a",
-    storageBucket: "crochet-videos-5b09a.firebasestorage.app",
-    messagingSenderId: "159415304130",
-    appId: "1:159415304130:web:ffacbacb3eeade6c4c605b"
+  "apiKey": "AIzaSyD170Bct_iQaHivGB0MDwFGqvO-0BZ-ASQ",
+  "authDomain": "crochet-videos-5b09a.firebaseapp.com",
+  "databaseURL": "https://crochet-videos-5b09a-default-rtdb.europe-west1.firebasedatabase.app",
+  "projectId": "crochet-videos-5b09a",
+  "storageBucket": "crochet-videos-5b09a.firebasestorage.app",
+  "messagingSenderId": "159415304130",
+  "appId": "1:159415304130:web:ffacbacb3eeade6c4c605b"
 };
 
-
 const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+const db  = getDatabase(app);
 const auth = getAuth(app);
-signInAnonymously(auth).catch(console.error);
+signInAnonymously(auth);
 
-function nodePath(vid) {
-  return `votes/{${vid}}`;
-}
+function scoreRef(id)   { return ref(db, `votes/${id}/score`); }
+function myRef(id, uid) { return ref(db, `votes/${id}/users/${uid}`); }
 
-function scoreRef(vid) {
-  return ref(db, nodePath(vid) + '/score');
-}
+document.querySelectorAll(".video-card").forEach(card => {
+  const vid = card.dataset.id;
+  const btnUp = card.querySelector(".up");
+  const btnDown = card.querySelector(".down");
+  const lbl = card.querySelector(".score");
 
-function videoNodeRef(vid) {
-  return ref(db, nodePath(vid));
-}
-
-auth.onAuthStateChanged(() => {
-  initVoting();
-});
-
-function initVoting() {
-  document.querySelectorAll('.video-card').forEach(card => {
-    const vid = card.dataset.id;
-    if(!vid) return;
-    const btnUp = card.querySelector('.up');
-    const btnDown = card.querySelector('.down');
-    const lblScore = card.querySelector('.score');
-
-    // global score listener
-    onValue(scoreRef(vid), snap => {
-      lblScore.textContent = snap.exists() ? snap.val() : 0;
-    });
-
-    // my vote listener (optional - highlight)
-    const myVoteRef = () => ref(db, nodePath(vid) + '/users/' + auth.currentUser.uid);
-    onValue(myVoteRef(), snap => {
-      const my = snap.exists() ? snap.val() : 0;
-      btnUp.classList.toggle('active', my === 1);
-      btnDown.classList.toggle('active', my === -1);
-    });
-
-    function sendVote(delta) {
-      if(!auth.currentUser) return;
-      runTransaction(videoNodeRef(vid), data => {
-        if(data === null) {
-          data = {score:0, users:{}};
-        }
-        const uid = auth.currentUser.uid;
-        const prev = data.users[uid] ?? 0;
-        const next = (prev === delta) ? 0 : delta;
-        const diff = next - prev;
-        data.users[uid] = next;
-        data.score = (data.score || 0) + diff;
-        return data;
-      });
-    }
-
-    btnUp.addEventListener('click', () => sendVote(1));
-    btnDown.addEventListener('click', () => sendVote(-1));
+  onValue(scoreRef(vid), snap => {
+    lbl.textContent = snap.val() ?? 0;
   });
-}
+
+  auth.onAuthStateChanged(user => {
+    if(!user) return;
+    onValue(myRef(vid, user.uid), snap => {
+      const my = snap.val() ?? 0;
+      btnUp.classList.toggle("active", my===1);
+      btnDown.classList.toggle("active", my===-1);
+    });
+  });
+
+  function send(delta){
+    const user=auth.currentUser;
+    if(!user) return;
+    runTransaction(scoreRef(vid), cur=>{
+      if(cur==null) cur=0;
+      return runTransaction(myRef(vid, user.uid), my=>{
+        my=my??0;
+        const next = (my===delta)?0:delta;
+        const diff = next - my;
+        return next;
+      }).then(()=>cur+diff);
+    });
+  }
+
+  btnUp.addEventListener("click", ()=>send(1));
+  btnDown.addEventListener("click", ()=>send(-1));
+});
