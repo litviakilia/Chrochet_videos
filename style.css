@@ -1,11 +1,15 @@
 
-body{font-family:system-ui,Arial,sans-serif;margin:0}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin:2rem}
-.card{background:#fafafa;padding:1rem;border-radius:8px;text-align:center;text-decoration:none;color:#111;box-shadow:0 1px 4px rgba(0,0,0,.1)}
-.card:hover{box-shadow:0 4px 10px rgba(0,0,0,.15)}
-.card small{display:block;margin-top:.35rem;font-size:.85rem;color:#555}
-.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem;margin:2rem}
-.back-btn{position:fixed;top:10px;left:10px;padding:.5rem .7rem;background:#fff;border:1px solid #888;border-radius:4px;text-decoration:none;color:#000;z-index:100}
-.pager{text-align:center;margin:1rem}
-.video-card{position:relative}
-.video-embed iframe{width:100%;height:180px;border:0}
+body{font-family:sans-serif;margin:0;padding:0;background:#fdfdfd}
+a{text-decoration:none;color:#222}
+.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;max-width:1200px;margin:2rem auto;padding:0 1rem}
+.category-card{background:#fff;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,.1);text-align:center;padding:1.2rem}.category-card .count{display:block;margin-top:.3rem;font-size:.85rem;color:#666}
+.sub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;max-width:1200px;margin:2rem auto;padding:0 1rem}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem;max-width:1200px;margin:90px auto 2rem;padding:0 1rem}
+.video-card{background:#fff;border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.12);overflow:hidden}
+.video-embed{position:relative;padding-bottom:56.25%;height:0}
+.video-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.back-btn{position:fixed;top:16px;left:16px;z-index:1000;text-decoration:none;font-size:.9rem;background:#ffffffd9;padding:.4rem .8rem;border:1px solid #ccc;border-radius:4px;color:#222;backdrop-filter:blur(3px);box-shadow:0 2px 4px rgba(0,0,0,.15)}
+.pager{text-align:center;margin:1.5rem 0}.pager a{margin:0 .25rem;padding:.2rem .5rem;border:1px solid #ccc;border-radius:4px}.pager .current{font-weight:700}
+.vote-box{display:flex;align-items:center;gap:4px;padding:.3rem .5rem;font-size:.85rem}
+.vote-box button{border:none;background:transparent;cursor:pointer;font-size:1rem;line-height:1;padding:0 2px}
+.vote-box button.up.active{color:#0a8f37}.vote-box button.down.active{color:#c31717}
